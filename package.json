@@ -1,0 +1,15 @@
+{
+  "name": "csv_converter",
+  "version": "1.0.0",
+  "description": "A npm package for CSV to JSON converter and vice versa",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "javascript"
+  ],
+  "author": "Bishal Joshi",
+  "license": "ISC"
+}
