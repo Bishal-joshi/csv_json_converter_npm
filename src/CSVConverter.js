@@ -12,18 +12,24 @@ export class CSVJSONConverter {
     const lines = csvFile.split("\n");
     const headers = lines[0].split(",").map((header) => header.trim());
 
-    return lines
+    const row = lines
       .slice(1)
       .map((line) => {
-        const data = line.match(/(".*?"|[^",\s]+)(?=\s*,|\s*$)/g);
-        if (!data) return null; // Skip empty lines
+        const data = line
+          .split(/,(?=(?:[^"]*"[^"]*")*[^"]*$)/)
+          .map((field) => field.trim());
+        if (!data.length || data.length !== headers.length) return null; // Ensure data aligns with headers
         let obj = {};
         headers.forEach((header, index) => {
-          obj[header] = data[index].replace(/(^"|"$)/g, "").trim();
+          obj[header] = data[index]
+            ? data[index].replace(/(^"|"$)/g, "").trim()
+            : "";
         });
         return obj;
       })
       .filter((obj) => obj); // Filter out any null entries
+
+    return { head: headers, row };
   }
 
   /**
@@ -47,8 +53,7 @@ export class CSVJSONConverter {
    * @param {Array<Object>} jsonArray - The JSON data to convert to CSV
    * @param {string} filename - The name of the output CSV file (without extension)
    */
-  async jsonToCSV(jsonArray, filename) {
-    const headers = Object.keys(jsonArray[0]);
+  async jsonToCSV(headers, jsonArray, filename) {
     const csvRows = [headers.join(",")];
 
     jsonArray.forEach((obj) => {
