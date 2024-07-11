@@ -1,6 +1,6 @@
 {
   "name": "csv_to_json",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A npm package for CSV to JSON converter and vice versa",
   "main": "index.js",
   "type": "module",
